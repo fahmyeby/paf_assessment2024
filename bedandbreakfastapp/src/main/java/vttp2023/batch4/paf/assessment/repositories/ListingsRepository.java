@@ -76,6 +76,16 @@ public class ListingsRepository {
                 return Collections.emptyList();
             }
 
+			// non lambda equivalent
+			/* List<String> ids = new ArrayList<>();
+			for (Document doc : results.getMappedResults()){
+				String id = doc.get("_id", String.class);
+				if (id != null){
+					ids.add(id);
+				}
+			}
+			return ids; */
+
             return results.getMappedResults().stream()
                 .map(doc -> doc.get("_id", String.class))
                 .filter(Objects::nonNull)
@@ -123,6 +133,15 @@ public class ListingsRepository {
                 "listings",
                 Document.class
             );
+
+			// non lambda equivalent
+			/* List<AccommodationSummary> summaries = new ArrayList<>();
+			for (Document doc : results.getMappedResults()){
+				AccommodationSummary summary = convertToAccommodationSummary(doc);
+				if (summary != null){
+					summaries.add(summary);
+				}
+			} return summaries; */
 
             return results.getMappedResults().stream()
                 .map(this::convertToAccommodationSummary)
